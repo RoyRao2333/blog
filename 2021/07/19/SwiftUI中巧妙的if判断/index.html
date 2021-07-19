@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      248 字
+      246 字
     </span>
   
 
@@ -229,14 +229,8 @@
             
             <div class="markdown-body">
               <p>我们一般对于选择性的显示<code>View</code>，或者在满足一定条件的情况下在<code>View</code>之间切换的做法，常见的有两种：</p>
-<ul>
-<li>if</li>
-</ul>
 <figure class="highlight swift"><figcaption><span>if</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">var</span> body: <span class="hljs-keyword">some</span> <span class="hljs-type">View</span> &#123;<br>	<span class="hljs-keyword">if</span> boolean &#123;<br>			<span class="hljs-type">MyView_1</span>()<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>    	<span class="hljs-type">MyView_2</span>()<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<ul>
-<li>switch</li>
-</ul>
 <figure class="highlight swift"><figcaption><span>switch</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-keyword">var</span> body: <span class="hljs-keyword">some</span> <span class="hljs-type">View</span> &#123;<br>    <span class="hljs-keyword">switch</span> identifier &#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;FirstView&quot;</span>: <br>        <span class="hljs-type">MyView_1</span>()<br>        <br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;secondView&quot;</span>: <br>        <span class="hljs-type">MyView_2</span>()<br>        <br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;ThirdView&quot;</span>: <br>        <span class="hljs-type">MyView_3</span>()<br>        <br>    <span class="hljs-keyword">default</span>:<br>        <span class="hljs-type">DefaultView</span>()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>&nbsp;</p>
