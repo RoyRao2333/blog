@@ -18,7 +18,7 @@
   <meta name="author" content="Roy Rao">
   <meta name="keywords" content="">
   
-  <title>Intro - RoyRao&#39;s Blog</title>
+  <title>SwiftUI中巧妙的if判断 - RoyRao&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Intro">
+            <span class="h2" id="subtitle" title="SwiftUI中巧妙的if判断">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-07-17 17:14" pubdate>
-        July 17, 2021 pm
+      <time datetime="2021-07-19 20:39" pubdate>
+        July 19, 2021 pm
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      24 字
+      251 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      3
        分钟
     </span>
   
@@ -225,14 +225,23 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Intro</h1>
+            <h1 style="display: none">SwiftUI中巧妙的if判断</h1>
             
             <div class="markdown-body">
-              <p>&nbsp;</p>
-<p>不积跬步无以至千里，</p>
-<p>不积小流无以成江海。</p>
+              <p>我们一般对于选择性的显示<code>View</code>，或者在满足一定条件的情况下在<code>View</code>之间切换的做法，常见的有两种：</p>
+<figure class="highlight swift"><figcaption><span>使用if</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs swift"><br><span class="hljs-keyword">var</span> body: <span class="hljs-keyword">some</span> <span class="hljs-type">View</span> &#123;<br>	<span class="hljs-keyword">if</span> boolean &#123;<br>		<span class="hljs-type">MyView_1</span>()<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>    	<span class="hljs-type">MyView_2</span>()<br>	&#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><figcaption><span>使用switch</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs swift"><br><span class="hljs-keyword">var</span> body: <span class="hljs-keyword">some</span> <span class="hljs-type">View</span> &#123;<br>    <span class="hljs-keyword">switch</span> identifier &#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;FirstView&quot;</span>: <br>        <span class="hljs-type">MyView_1</span>()<br>        <br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;secondView&quot;</span>: <br>        <span class="hljs-type">MyView_2</span>()<br>        <br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;ThirdView&quot;</span>: <br>        <span class="hljs-type">MyView_3</span>()<br>        <br>    <span class="hljs-keyword">default</span>:<br>        <span class="hljs-type">DefaultView</span>()<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
 <p>&nbsp;</p>
-<p>Follow me on <a target="_blank" rel="noopener" href="https://github.com/RoyRao2333">GitHub</a>.</p>
+<p>但当我们遇到更为复杂的情况，例如对<code>View</code>有更多自定义的要求的时候，以上方法显然有些捉襟见肘了。很久之前查阅相关资料的时候，偶然看到了一段实用的代码，经过改善后如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs swift"><br><span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">View</span> </span>&#123;<br>    <br>    <span class="hljs-meta">@ViewBuilder</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">`if`</span>&lt;<span class="hljs-type">Content</span>: <span class="hljs-type">View</span>&gt;(<span class="hljs-keyword">_</span> <span class="hljs-params">conditional</span>: <span class="hljs-type">Bool</span>, <span class="hljs-params">ifTure</span>: ((<span class="hljs-keyword">Self</span>) -&gt; <span class="hljs-type">Content</span>)<span class="hljs-operator">?</span>, <span class="hljs-params">ifFalse</span>: ((<span class="hljs-keyword">Self</span>) -&gt; <span class="hljs-type">Content</span>)<span class="hljs-operator">?</span>)</span> -&gt; <span class="hljs-keyword">some</span> <span class="hljs-type">View</span> &#123;<br>        <span class="hljs-keyword">if</span> conditional &#123;<br>            <span class="hljs-keyword">if</span> ifTure <span class="hljs-operator">!=</span> <span class="hljs-literal">nil</span> &#123;<br>                ifTure<span class="hljs-operator">!</span>(<span class="hljs-keyword">self</span>)<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">self</span><br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">if</span> ifFalse <span class="hljs-operator">!=</span> <span class="hljs-literal">nil</span> &#123;<br>                ifFalse<span class="hljs-operator">!</span>(<span class="hljs-keyword">self</span>)<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">self</span><br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>建议单独写为一份扩展文件，可以随时添加到新项目中去。</p>
+<p>&nbsp;</p>
+<blockquote>
+<p>不足之处，欢迎指正。</p>
+</blockquote>
 
             </div>
             <hr>
@@ -242,10 +251,17 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>
+                      <a class="hover-with-bg" href="/categories/Programming/">Programming</a>
                     
                   </div>
                 
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/SwiftUI/">SwiftUI</a>
+                    
+                  </div>
                 
               </div>
               
@@ -260,15 +276,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/Programming/SwiftUI%E4%B8%AD%E5%B7%A7%E5%A6%99%E7%9A%84if%E5%88%A4%E6%96%AD/">
+                      <a href="/Programming/Swift%E4%B8%AD%E8%8E%B7%E5%8F%96App%E4%B8%8A%E6%AC%A1%E6%89%93%E5%BC%80%E6%97%B6%E9%97%B4/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">SwiftUI中巧妙的if判断</span>
+                        <span class="hidden-mobile">Swift中获取App上次打开时间</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/%E6%9D%82%E8%B0%88/Intro/">
+                        <span class="hidden-mobile">Intro</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

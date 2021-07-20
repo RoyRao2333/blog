@@ -29,6 +29,31 @@
   
   
   <entry>
+    <title>SwiftUI中巧妙的if判断</title>
+    <link href="/Programming/SwiftUI%E4%B8%AD%E5%B7%A7%E5%A6%99%E7%9A%84if%E5%88%A4%E6%96%AD/"/>
+    <url>/Programming/SwiftUI%E4%B8%AD%E5%B7%A7%E5%A6%99%E7%9A%84if%E5%88%A4%E6%96%AD/</url>
+    
+    <content type="html"><![CDATA[<p>我们一般对于选择性的显示<code>View</code>，或者在满足一定条件的情况下在<code>View</code>之间切换的做法，常见的有两种：</p><figure class="highlight swift"><figcaption><span>使用if</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs swift"><br><span class="hljs-keyword">var</span> body: <span class="hljs-keyword">some</span> <span class="hljs-type">View</span> &#123;<br><span class="hljs-keyword">if</span> boolean &#123;<br><span class="hljs-type">MyView_1</span>()<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-type">MyView_2</span>()<br>&#125;<br>&#125;<br><br></code></pre></td></tr></table></figure><figure class="highlight swift"><figcaption><span>使用switch</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs swift"><br><span class="hljs-keyword">var</span> body: <span class="hljs-keyword">some</span> <span class="hljs-type">View</span> &#123;<br>    <span class="hljs-keyword">switch</span> identifier &#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;FirstView&quot;</span>: <br>        <span class="hljs-type">MyView_1</span>()<br>        <br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;secondView&quot;</span>: <br>        <span class="hljs-type">MyView_2</span>()<br>        <br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;ThirdView&quot;</span>: <br>        <span class="hljs-type">MyView_3</span>()<br>        <br>    <span class="hljs-keyword">default</span>:<br>        <span class="hljs-type">DefaultView</span>()<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure><p>&nbsp;</p><p>但当我们遇到更为复杂的情况，例如对<code>View</code>有更多自定义的要求的时候，以上方法显然有些捉襟见肘了。很久之前查阅相关资料的时候，偶然看到了一段实用的代码，经过改善后如下：</p><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs swift"><br><span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">View</span> </span>&#123;<br>    <br>    <span class="hljs-meta">@ViewBuilder</span><br>    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">`if`</span>&lt;<span class="hljs-type">Content</span>: <span class="hljs-type">View</span>&gt;(<span class="hljs-keyword">_</span> <span class="hljs-params">conditional</span>: <span class="hljs-type">Bool</span>, <span class="hljs-params">ifTure</span>: ((<span class="hljs-keyword">Self</span>) -&gt; <span class="hljs-type">Content</span>)<span class="hljs-operator">?</span>, <span class="hljs-params">ifFalse</span>: ((<span class="hljs-keyword">Self</span>) -&gt; <span class="hljs-type">Content</span>)<span class="hljs-operator">?</span>)</span> -&gt; <span class="hljs-keyword">some</span> <span class="hljs-type">View</span> &#123;<br>        <span class="hljs-keyword">if</span> conditional &#123;<br>            <span class="hljs-keyword">if</span> ifTure <span class="hljs-operator">!=</span> <span class="hljs-literal">nil</span> &#123;<br>                ifTure<span class="hljs-operator">!</span>(<span class="hljs-keyword">self</span>)<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">self</span><br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">if</span> ifFalse <span class="hljs-operator">!=</span> <span class="hljs-literal">nil</span> &#123;<br>                ifFalse<span class="hljs-operator">!</span>(<span class="hljs-keyword">self</span>)<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">self</span><br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure><p>建议单独写为一份扩展文件，可以随时添加到新项目中去。</p><p>&nbsp;</p><blockquote><p>不足之处，欢迎指正。</p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>Programming</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>SwiftUI</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Intro</title>
     <link href="/%E6%9D%82%E8%B0%88/Intro/"/>
     <url>/%E6%9D%82%E8%B0%88/Intro/</url>
