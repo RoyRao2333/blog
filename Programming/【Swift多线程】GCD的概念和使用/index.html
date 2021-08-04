@@ -1,0 +1,532 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="baidu-site-verification" content="code-XNCznboyrB" />
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Roy Rao">
+  <meta name="keywords" content="">
+  
+  <title>【Swift多线程】GCD的概念和使用 - RoyRao&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"royrao.me","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>RoyRao's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="【Swift多线程】GCD的概念和使用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-08-04 11:36" pubdate>
+        August 4, 2021 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【Swift多线程】GCD的概念和使用</h1>
+            
+            <div class="markdown-body">
+              <p>Swift中，在提到__并发__的时候，一般指的是__异步 + 并行__。（异步和并行的概念假设大家已有所了解，这里不作详细介绍。如果想进一步了解的，可以参阅喵大的博客<a target="_blank" rel="noopener" href="https://onevcat.com/2021/07/swift-concurrency/">Swift并发初步</a>）</p>
+<p>我们一般有两种方式来使我们的任务实现并发：__Grand Central Dispatch__（通常称为__GCD__）和__Operations__。两种方式相辅相成。此外，Operations其实是在GCD的基础上打造的，这个我会在接下来的博客中介绍，本文暂不提及。下面我会简单介绍一下GDC的基本概念以及使用。</p>
+<h1 id="GCD-Grand-Central-Dispatch"><a href="#GCD-Grand-Central-Dispatch" class="headerlink" title="GCD (Grand Central Dispatch)"></a>GCD (Grand Central Dispatch)</h1><p>GCD是Apple对C语言__libdispatch__库的实现。它的目的是将任务（方法或闭包）进行排队，这些任务可以并行运行（具体取决于资源的可用性），然后让它们在可用的处理器核心上执行。</p>
+<p>虽然GCD在其实现中使用了线程，但作为开发人员，你完全不需要担心如何进行线程管理。GCD的任务非常轻量级，以至于Apple在2009年关于GCD的技术简报中指出，部署一个任务只需要15条指令，而创建传统线程可能需要数百条指令。</p>
+<p>GCD将你的所有任务都放入它管理的先进先出(FIFO)队列中，你提交给队列的每个任务都会由系统管理的线程池执行，并在完成后销毁线程。</p>
+<blockquote>
+<p><strong>Note:</strong> GCD不能保证你的任务将在哪个线程上执行。</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id="Dispatch-Queue"><a href="#Dispatch-Queue" class="headerlink" title="Dispatch Queue"></a>Dispatch Queue</h2><p>__DispatchQueue__是GCD管理的一组(FIFO)队列，我们提交的任务在队列里被加载、调度，然后在要执行的线程池中进一步分发。这些队列可以是__串行__的，即执行的顺序被严格限制；也可以是__并发__的，即同时执行。因为并发可以带来更好的性能，因此Apple鼓励我们更频繁地使用并发队列。</p>
+<p>&nbsp;</p>
+<h3 id="main和-global"><a href="#main和-global" class="headerlink" title=".main和.global()"></a>.main和.global()</h3><p>__.main__队列是GCD提供的全局可用的_串行队列_，用于在应用程序的主线程上执行任务。</p>
+<blockquote>
+<p><strong>Note:</strong> 由于主线程用于更新UI和用户交互，因此我们在使用main队列执行任务时要注意，最好不要阻塞主线程。</p>
+</blockquote>
+<p>为了避免阻塞主线程，除了.main队列之外，GCD还为我们提供了一组全局队列__.global()__，也称为后台队列，用于执行不必要在主线程执行的任务，即任何不属于UI更新的任务。</p>
+<p>我们这里举一个例子：假如你需要根据当前状态，通过方法<code>getTextString(status: OSStatus)</code>来获取需要显示的文字，并更新到UI上的<code>NSTextField</code>上。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs swift"><br><span class="hljs-type">DispatchQueue</span>.global(qos: .userInteractive).async &#123; [<span class="hljs-keyword">unowned</span> <span class="hljs-keyword">self</span>] <span class="hljs-keyword">in</span><br>    <span class="hljs-comment">// 根据当前状态获取要显示的文字</span><br>    <span class="hljs-keyword">let</span> text2Show <span class="hljs-operator">=</span> getTextString(status)<br>    <br>    <span class="hljs-type">DispatchQueue</span>.main.async &#123;<br>        <span class="hljs-comment">// 记得在主线程更新UI</span><br>        textfield.stringValue <span class="hljs-operator">=</span> text2Show<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>GCD允许我们以_同步_或_异步_的方式分派任务。使用.sync（即同步）时，只有在任务执行完成后，才会将控制权返回给调用方函数。而使用.async（即异步）时会开始执行任务并立即将控制权返回给调用方，而不会阻塞线程。通常，我们在进行API调用或执行计算密集型任务 (CPU-intensive task) 时使用异步。具体使用什么方式，根据需求选择。</p>
+<p>&nbsp;</p>
+<h3 id="Quality-of-Service-QoS"><a href="#Quality-of-Service-QoS" class="headerlink" title="Quality of Service (QoS)"></a>Quality of Service (QoS)</h3><p>在以上示例代码中，出现了一个参数_qos_，即_Quality of Service_。顾名思义，就是定义一个队列的重要性、优先级。</p>
+<p>定义__QoS__有助于我们对DispatchQueue的任务进行优先级分类。但这并不意味着我们应该把所有的任务都安排在高优先级上。通过合理的分配，可以使我们的app节能且响应迅速。</p>
+<p>QoS的优先级被分为了四个大类：</p>
+<ul>
+<li>userInteractive: 用于显示动画，或更新UI。</li>
+<li>userInitiated: 用于从API中获取数据，且在过程中不允许用户进行交互。</li>
+<li>utility: 用于那些不需要用户关注或在意，可独立完成的任务。</li>
+<li>background: 用于任何优先级不高的任务，例如在本地数据库中保存数据。</li>
+</ul>
+<p>一旦对任务队列进行分类后，系统就会在可分配的资源内以尽可能好的方式处理它。另一点需要注意的是，__.utility__和__.background__比其他分类的优先级更低，使用之前应当对任务类型进行合理的分析，否则你的app可能会出现__线程爆炸__和__死锁__。</p>
+<p>&nbsp;</p>
+<h2 id="Dispatch-Source"><a href="#Dispatch-Source" class="headerlink" title="Dispatch Source"></a>Dispatch Source</h2><p>__DispatchSource__是一种用于处理事件的数据类型，这些被处理的事件为操作系统中的底层级别。GCD支持如下的DispatchSource类型：</p>
+<ul>
+<li>Timer dispatch sources：定时器类型，能够产生周期性的通知事件；</li>
+<li>Signal dispatch sources：信号类型，当UNIX信号到底时，能够通知应用程序；</li>
+<li>Descriptor sources：文件描述符类型，处理UNIX的文件或socket描述符，如：<ul>
+<li>数据可读</li>
+<li>数据可写</li>
+<li>文件被删除、修改或移动</li>
+<li>文件的元信息被修改</li>
+</ul>
+</li>
+<li>Process dispatch sources：进程类型，能够通知一些与进程相关的事件类型，如：<ul>
+<li>当进程退出</li>
+<li>当进程调用了fork或exec</li>
+<li>当一个信号传递给了进程</li>
+</ul>
+</li>
+<li>Mach port dispatch sources：端口匹配类型，能够通知一些端口事件的类型；</li>
+<li>Custom dispatch sources：自定义类型，可以自定义一些事件类型。</li>
+</ul>
+<p>DispatchSource能够替换一些异步的回调函数，特别是用于处理一些与系统相关的事件。当进行DispatchSource配置时，可以指定希望监控的事件类型，且可以指定DispatchQueue来处理上述的事件。当一个受监控的的事件出现时，所指定的block或函数将会被调用执行。</p>
+<p>和将任务提交到DispatchQueue不同，DispatchSource将会持续对所提交的事件进行监控，除非手动取消指定事件的监控。</p>
+<p>_Signal_、_Process_、_File System_、_Timer_等等，所有事情都通过DispatchSource对象进行处理。你可以使用DispatchSource监控信号、进程、文件、计时器等，详见<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/dispatch/dispatchsource">Apple官方文档</a>。</p>
+<h1 id="GCD-API"><a href="#GCD-API" class="headerlink" title="GCD API"></a>GCD API</h1><h3 id="创建主队列"><a href="#创建主队列" class="headerlink" title="创建主队列"></a>创建主队列</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs swift"><br><span class="hljs-type">DispatchQueue</span>.main.async &#123;&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h3 id="创建全局队列"><a href="#创建全局队列" class="headerlink" title="创建全局队列"></a>创建全局队列</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs swift"><br><span class="hljs-type">DispatchQueue</span>.global().sync &#123;&#125;<br><br><span class="hljs-type">DispatchQueue</span>.global(qos: .background).async &#123;&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h3 id="创建创建自定义队列"><a href="#创建创建自定义队列" class="headerlink" title="创建创建自定义队列"></a>创建创建自定义队列</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs swift"><br><span class="hljs-type">DispatchQueue</span>(label: <span class="hljs-string">&quot;com.Roy.workingQueue&quot;</span>).async &#123;&#125;<br><br><span class="hljs-type">DispatchQueue</span>(<br>    label: <span class="hljs-string">&quot;com.Roy.concurrentQueue&quot;</span>,<br>    qos: .default,<br>    attributes: .concurrent,<br>    autoreleaseFrequency: .inherit,<br>    target: <span class="hljs-literal">nil</span><br>).async &#123;&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<hr>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li>喵大 - <a target="_blank" rel="noopener" href="https://onevcat.com/2021/07/swift-concurrency/">Swift并发初步</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.devgenius.io/multithreading-in-swift-how-gcd-works-why-do-we-need-operation-queues-high-performing-ios-ddf6ca09583e">Guide to Multithreading in iOS</a></li>
+</ul>
+<p>&nbsp;</p>
+<blockquote>
+<p>不足之处，欢迎指正。</p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Programming/">Programming</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Swift/">Swift</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/Programming/Swift%E4%B8%AD%E7%9A%84%E6%B8%90%E5%8F%98%E8%89%B2%E6%8C%89%E9%92%AE/">
+                        <span class="hidden-mobile">Swift中的渐变色按钮 (Button)</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"209pXWGgTOkCBkHPcNpSLUhz-gzGzoHsz","appKey":"aJL81O793XicUPBtJ7AQWFrP","placeholder":"说点什么...","path":"window.location.pathname","avatar":"retro","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":"//i0.hdslb.com/bfs/emote/","emojiMaps":{"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_亲亲":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_再见":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_发怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_发财":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_可爱":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_呕吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_坏笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_尴尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_惊吓":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png"},"enableQQ":false,"requiredFields":["nick"]},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

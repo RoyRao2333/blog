@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://royrao.me/Programming/%E3%80%90Swift%E5%A4%9A%E7%BA%BF%E7%A8%8B%E3%80%91GCD%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E4%BD%BF%E7%94%A8/</loc>
+    
+    <lastmod>2021-08-04</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://royrao.me/%E6%9D%82%E8%B0%88/Intro/</loc>
     
     <lastmod>2021-07-22</lastmod>
@@ -39,7 +46,7 @@
 
   <url>
     <loc>https://royrao.me/</loc>
-    <lastmod>2021-07-22</lastmod>
+    <lastmod>2021-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -47,14 +54,14 @@
   
   <url>
     <loc>https://royrao.me/tags/Swift/</loc>
-    <lastmod>2021-07-22</lastmod>
+    <lastmod>2021-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://royrao.me/tags/SwiftUI/</loc>
-    <lastmod>2021-07-22</lastmod>
+    <lastmod>2021-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -62,15 +69,15 @@
 
   
   <url>
-    <loc>https://royrao.me/categories/Programming/</loc>
-    <lastmod>2021-07-22</lastmod>
+    <loc>https://royrao.me/categories/%E6%9D%82%E8%B0%88/</loc>
+    <lastmod>2021-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://royrao.me/categories/%E6%9D%82%E8%B0%88/</loc>
-    <lastmod>2021-07-22</lastmod>
+    <loc>https://royrao.me/categories/Programming/</loc>
+    <lastmod>2021-08-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
