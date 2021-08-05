@@ -244,6 +244,8 @@
 <blockquote>
 <p><strong>Note:</strong> 由于主线程用于更新UI和用户交互，因此我们在使用main队列执行任务时要注意，最好不要阻塞主线程。</p>
 </blockquote>
+<br/>
+
 <p>为了避免阻塞主线程，除了<code>.main</code>队列之外，GCD还为我们提供了<code>.global()</code>方法，调用时返回一支全局队列，也称为后台队列，用于执行不必要在主线程执行的任务，即任何不属于UI更新的任务。</p>
 <p>我们这里举一个例子：假如你需要根据当前状态，通过方法<code>getTextString(status: OSStatus)</code>来获取需要显示的文字，并更新到UI上的<code>NSTextField</code>上。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs swift"><br><span class="hljs-type">DispatchQueue</span>.global(qos: .userInteractive).async &#123; [<span class="hljs-keyword">unowned</span> <span class="hljs-keyword">self</span>] <span class="hljs-keyword">in</span><br>    <span class="hljs-comment">// 根据当前状态获取要显示的文字</span><br>    <span class="hljs-keyword">let</span> text2Show <span class="hljs-operator">=</span> getTextString(status)<br>    <br>    <span class="hljs-type">DispatchQueue</span>.main.async &#123;<br>        <span class="hljs-comment">// 记得在主线程更新UI</span><br>        textfield.stringValue <span class="hljs-operator">=</span> text2Show<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
