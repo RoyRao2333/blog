@@ -256,8 +256,7 @@
 </blockquote>
 <p>为了避免阻塞主线程，除了<code>.main</code>队列之外，GCD还为我们提供了<code>.global()</code>方法，调用时返回一支全局队列，也称为后台队列，用于执行不必要在主线程执行的任务，即任何不属于UI更新的任务。</p>
 <p>我们这里举一个例子：假如你需要根据当前状态，通过方法<code>getTextString(status: OSStatus)</code>来获取需要显示的文字，并更新到UI上的<code>NSTextField</code>上。</p>
-<div class="code-wrapper"><pre class="line-numbers language-swift" data-language="swift"><code class="language-swift">
-<span class="token builtin">DispatchQueue</span><span class="token punctuation">.</span><span class="token function">global</span><span class="token punctuation">(</span>qos<span class="token punctuation">:</span> <span class="token punctuation">.</span>userInteractive<span class="token punctuation">)</span><span class="token punctuation">.</span>async <span class="token punctuation">&#123;</span> <span class="token punctuation">[</span><span class="token keyword">unowned</span> <span class="token keyword">self</span><span class="token punctuation">]</span> <span class="token keyword">in</span>
+<div class="code-wrapper"><pre class="line-numbers language-swift" data-language="swift"><code class="language-swift"><span class="token builtin">DispatchQueue</span><span class="token punctuation">.</span><span class="token function">global</span><span class="token punctuation">(</span>qos<span class="token punctuation">:</span> <span class="token punctuation">.</span>userInteractive<span class="token punctuation">)</span><span class="token punctuation">.</span>async <span class="token punctuation">&#123;</span> <span class="token punctuation">[</span><span class="token keyword">unowned</span> <span class="token keyword">self</span><span class="token punctuation">]</span> <span class="token keyword">in</span>
     <span class="token comment">// 根据当前状态获取要显示的文字</span>
     <span class="token keyword">let</span> text2Show <span class="token operator">=</span> <span class="token function">getTextString</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span>
     
@@ -265,8 +264,7 @@
         <span class="token comment">// 记得在主线程更新UI</span>
         textfield<span class="token punctuation">.</span>stringValue <span class="token operator">=</span> text2Show
     <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 
 <p>GCD允许我们以<strong>同步</strong>或<strong>异步</strong>的方式分派任务。使用<code>.sync</code>（即同步）时，只有在任务执行完成后，才会将控制权返回给调用方函数。而使用<code>.async</code>（即异步）时会开始执行任务并立即将控制权返回给调用方，而不会阻塞线程。通常，我们在进行API调用或执行计算密集型任务 (CPU-intensive task) 时使用异步。具体使用什么方式，根据需求选择。</p>
 <p>&nbsp;</p>
@@ -304,20 +302,15 @@
 <p><code>DispatchSource</code>能够替换一些异步的回调函数，特别是用于处理一些与系统相关的事件。当进行<code>DispatchSource</code>配置时，可以指定希望监控的事件类型，且可以指定<code>DispatchQueue</code>来处理上述的事件。当一个受监控的的事件出现时，所指定的<em>block</em>或函数将会被调用执行。</p>
 <p>和将任务提交到<code>DispatchQueue</code>不同，<code>DispatchSource</code>将会持续对所提交的事件进行监控，除非手动取消指定事件的监控。</p>
 <p><em>Signal</em>、<em>Process</em>、<em>File System</em>、<em>Timer</em>等等，所有事情都可以通过DispatchSource对象进行处理。你可以使用<code>DispatchSource</code>监控信号、进程、文件、计时器等，详见<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/dispatch/dispatchsource">Apple官方文档</a>。</p>
-<h1 id="GCD-API"><a href="#GCD-API" class="headerlink" title="GCD API"></a>GCD API</h1><h3 id="创建主队列"><a href="#创建主队列" class="headerlink" title="创建主队列"></a>创建主队列</h3><div class="code-wrapper"><pre class="line-numbers language-swift" data-language="swift"><code class="language-swift">
-<span class="token builtin">DispatchQueue</span><span class="token punctuation">.</span>main<span class="token punctuation">.</span>async <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div>
+<h1 id="GCD-API"><a href="#GCD-API" class="headerlink" title="GCD API"></a>GCD API</h1><h3 id="创建主队列"><a href="#创建主队列" class="headerlink" title="创建主队列"></a>创建主队列</h3><div class="code-wrapper"><pre class="line-numbers language-swift" data-language="swift"><code class="language-swift"><span class="token builtin">DispatchQueue</span><span class="token punctuation">.</span>main<span class="token punctuation">.</span>async <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div>
 
 <p>&nbsp;</p>
-<h3 id="创建全局队列"><a href="#创建全局队列" class="headerlink" title="创建全局队列"></a>创建全局队列</h3><div class="code-wrapper"><pre class="line-numbers language-swift" data-language="swift"><code class="language-swift">
-<span class="token builtin">DispatchQueue</span><span class="token punctuation">.</span><span class="token function">global</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>sync <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<h3 id="创建全局队列"><a href="#创建全局队列" class="headerlink" title="创建全局队列"></a>创建全局队列</h3><div class="code-wrapper"><pre class="line-numbers language-swift" data-language="swift"><code class="language-swift"><span class="token builtin">DispatchQueue</span><span class="token punctuation">.</span><span class="token function">global</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>sync <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
 
-<span class="token builtin">DispatchQueue</span><span class="token punctuation">.</span><span class="token function">global</span><span class="token punctuation">(</span>qos<span class="token punctuation">:</span> <span class="token punctuation">.</span>background<span class="token punctuation">)</span><span class="token punctuation">.</span>async <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div>
+<span class="token builtin">DispatchQueue</span><span class="token punctuation">.</span><span class="token function">global</span><span class="token punctuation">(</span>qos<span class="token punctuation">:</span> <span class="token punctuation">.</span>background<span class="token punctuation">)</span><span class="token punctuation">.</span>async <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div>
 
 <p>&nbsp;</p>
-<h3 id="创建自定义队列"><a href="#创建自定义队列" class="headerlink" title="创建自定义队列"></a>创建自定义队列</h3><div class="code-wrapper"><pre class="line-numbers language-swift" data-language="swift"><code class="language-swift">
-<span class="token function">DispatchQueue</span><span class="token punctuation">(</span>label<span class="token punctuation">:</span> <span class="token string">"com.Roy.workingQueue"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>async <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<h3 id="创建自定义队列"><a href="#创建自定义队列" class="headerlink" title="创建自定义队列"></a>创建自定义队列</h3><div class="code-wrapper"><pre class="line-numbers language-swift" data-language="swift"><code class="language-swift"><span class="token function">DispatchQueue</span><span class="token punctuation">(</span>label<span class="token punctuation">:</span> <span class="token string">"com.Roy.workingQueue"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>async <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
 
 <span class="token function">DispatchQueue</span><span class="token punctuation">(</span>
     label<span class="token punctuation">:</span> <span class="token string">"com.Roy.concurrentQueue"</span><span class="token punctuation">,</span>
@@ -325,8 +318,7 @@
     attributes<span class="token punctuation">:</span> <span class="token punctuation">.</span>concurrent<span class="token punctuation">,</span>
     autoreleaseFrequency<span class="token punctuation">:</span> <span class="token punctuation">.</span>inherit<span class="token punctuation">,</span>
     target<span class="token punctuation">:</span> <span class="token constant">nil</span>
-<span class="token punctuation">)</span><span class="token punctuation">.</span>async <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<span class="token punctuation">)</span><span class="token punctuation">.</span>async <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 
 <p>&nbsp;</p>
 <h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
