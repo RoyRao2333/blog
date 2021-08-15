@@ -355,7 +355,11 @@ subclass一个NSBu
           在日常开发中，我们经常会遇到一些情况，需要获取用户上次打开App的时间。
 这里介绍一个最简单的方法，以macOS为例：
 &nbsp;
-首先我们需要在App退出之前保存当前时间1234567891011121314// In AppDelegatefunc applicationWillResignActive(_ notification: Notification) &#123;	UserDef
+首先我们需要在App退出之前保存当前时间
+// In AppDelegate
+
+func applicationWillResignActive(_ notification: Notification) &#123;
+	UserDefaults.standard.
         </a>
       </p>
 
@@ -406,9 +410,18 @@ subclass一个NSBu
             
           
           我们一般对于选择性的显示View，或者在满足一定条件的情况下在View之间切换的做法，常见的有两种：
-使用if123456789var body: some View &#123;	if boolean &#123;		MyView_1()	&#125; else &#123;    	MyView_2()	&#125;&#125;
+使用if
+var body: some View &#123;
+	if boolean &#123;
+		MyView_1()
+	&#125; else &#123;
+    	MyView_2()
+	&#125;
+&#125;
 
-使用switch12345678910111213141516
+
+使用switch
+var body: some View &#1
         </a>
       </p>
 
@@ -527,6 +540,8 @@ subclass一个NSBu
 
 
 
+  
+    
   
 
 

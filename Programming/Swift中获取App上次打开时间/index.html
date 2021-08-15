@@ -31,7 +31,17 @@
     
     
       
-      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+      
+        
+          
+          
+          
+        
+        <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism-tomorrow.min.css" />
+      
+      
+        <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-numbers/prism-line-numbers.min.css" />
+      
     
   
 
@@ -186,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      200 字
+      197 字
     </span>
   
 
@@ -232,9 +242,41 @@
               <p>在日常开发中，我们经常会遇到一些情况，需要获取用户上次打开App的时间。</p>
 <p>这里介绍一个最简单的方法，以macOS为例：</p>
 <p>&nbsp;</p>
-<figure class="highlight swift"><figcaption><span>首先我们需要在App退出之前保存当前时间</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs swift"><br><span class="hljs-comment">// In AppDelegate</span><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">applicationWillResignActive</span>(<span class="hljs-keyword">_</span> <span class="hljs-params">notification</span>: <span class="hljs-type">Notification</span>)</span> &#123;<br>	<span class="hljs-type">UserDefaults</span>.standard.set(<span class="hljs-type">Date</span>(), forKey: <span class="hljs-string">&quot;LastOpened&quot;</span>) <br>&#125;<br><br><span class="hljs-comment">// OR</span><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">applicationWillTerminate</span>(<span class="hljs-keyword">_</span> <span class="hljs-params">aNotification</span>: <span class="hljs-type">Notification</span>)</span> &#123;<br>    <span class="hljs-comment">// Insert code here to tear down your application</span><br>    <span class="hljs-type">UserDefaults</span>.standard.set(<span class="hljs-type">Date</span>(), forKey: <span class="hljs-string">&quot;LastOpened&quot;</span>) <br>&#125;<br><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre class="line-numbers language-swift" data-language="swift"><div class="caption"><span>首先我们需要在App退出之前保存当前时间</span></div><code class="language-swift">
+<span class="token comment">// In AppDelegate</span>
 
-<figure class="highlight swift"><figcaption><span>然后在App下次启动的时候去获取</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs swift"><br><span class="hljs-comment">// In AppDelegate</span><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">applicationDidBecomeActive</span>(<span class="hljs-keyword">_</span> <span class="hljs-params">notification</span>: <span class="hljs-type">Notification</span>)</span> &#123; <br>	<span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> lastOpened <span class="hljs-operator">=</span> <span class="hljs-type">UserDefaults</span>. standard. object(forKey: <span class="hljs-string">&quot;LastOpened&quot;</span>) <span class="hljs-keyword">as?</span> <span class="hljs-type">Date</span> <span class="hljs-keyword">else</span> &#123; <span class="hljs-keyword">return</span> &#125;<br>	<br>	<span class="hljs-keyword">let</span> elapsed <span class="hljs-operator">=</span> <span class="hljs-type">Calendar</span>.current.dateComponents([.day], from: tastOpened, to: <span class="hljs-type">Date</span>()) <br>	<span class="hljs-keyword">if</span> elapsed.day<span class="hljs-operator">!</span> <span class="hljs-operator">&gt;=</span> <span class="hljs-number">1</span> &#123; <span class="hljs-comment">// Do your logics</span><br>		<span class="hljs-comment">// show alert </span><br>	&#125;<br>&#125;<br><br><span class="hljs-comment">// OR</span><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">applicationDidFinishLaunching</span>(<span class="hljs-keyword">_</span> <span class="hljs-params">aNotification</span>: <span class="hljs-type">Notification</span>)</span> &#123;<br>    <span class="hljs-comment">// Create the popover and set the content view.</span><br><br>	<span class="hljs-comment">// 以上相同</span><br>&#125;<br><br></code></pre></td></tr></table></figure>
+<span class="token keyword">func</span> <span class="token function">applicationWillResignActive</span><span class="token punctuation">(</span><span class="token number">_</span> notification<span class="token punctuation">:</span> <span class="token builtin">Notification</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token builtin">UserDefaults</span><span class="token punctuation">.</span>standard<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token function">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> forKey<span class="token punctuation">:</span> <span class="token string">"LastOpened"</span><span class="token punctuation">)</span> 
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// OR</span>
+
+<span class="token keyword">func</span> <span class="token function">applicationWillTerminate</span><span class="token punctuation">(</span><span class="token number">_</span> aNotification<span class="token punctuation">:</span> <span class="token builtin">Notification</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// Insert code here to tear down your application</span>
+    <span class="token builtin">UserDefaults</span><span class="token punctuation">.</span>standard<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token function">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> forKey<span class="token punctuation">:</span> <span class="token string">"LastOpened"</span><span class="token punctuation">)</span> 
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<div class="code-wrapper"><pre class="line-numbers language-swift" data-language="swift"><div class="caption"><span>然后在App下次启动的时候去获取</span></div><code class="language-swift">
+<span class="token comment">// In AppDelegate</span>
+
+<span class="token keyword">func</span> <span class="token function">applicationDidBecomeActive</span><span class="token punctuation">(</span><span class="token number">_</span> notification<span class="token punctuation">:</span> <span class="token builtin">Notification</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> 
+	<span class="token keyword">guard</span> <span class="token keyword">let</span> lastOpened <span class="token operator">=</span> <span class="token builtin">UserDefaults</span><span class="token punctuation">.</span> standard<span class="token punctuation">.</span> <span class="token function">object</span><span class="token punctuation">(</span>forKey<span class="token punctuation">:</span> <span class="token string">"LastOpened"</span><span class="token punctuation">)</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token builtin">Date</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span> <span class="token keyword">return</span> <span class="token punctuation">&#125;</span>
+	
+	<span class="token keyword">let</span> elapsed <span class="token operator">=</span> <span class="token builtin">Calendar</span><span class="token punctuation">.</span>current<span class="token punctuation">.</span><span class="token function">dateComponents</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">.</span>day<span class="token punctuation">]</span><span class="token punctuation">,</span> from<span class="token punctuation">:</span> tastOpened<span class="token punctuation">,</span> to<span class="token punctuation">:</span> <span class="token function">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> 
+	<span class="token keyword">if</span> elapsed<span class="token punctuation">.</span>day<span class="token operator">!</span> <span class="token operator">>=</span> <span class="token number">1</span> <span class="token punctuation">&#123;</span> <span class="token comment">// Do your logics</span>
+		<span class="token comment">// show alert </span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// OR</span>
+
+<span class="token keyword">func</span> <span class="token function">applicationDidFinishLaunching</span><span class="token punctuation">(</span><span class="token number">_</span> aNotification<span class="token punctuation">:</span> <span class="token builtin">Notification</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// Create the popover and set the content view.</span>
+
+	<span class="token comment">// 以上相同</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 
 <p>&nbsp;</p>
 <p>That’s it! iOS同理。</p>
@@ -418,6 +460,8 @@
 
 
 
+  
+    
   
 
 
