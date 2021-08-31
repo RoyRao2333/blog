@@ -240,7 +240,7 @@
             
             <div class="markdown-body">
               <p>Swift中，在提到<strong>并发</strong>的时候，一般指的是<strong>异步 + 并行</strong>。（异步和并行的概念假设大家已有所了解，这里不作详细介绍。如果想进一步了解的，可以参阅喵大的博客<a target="_blank" rel="noopener" href="https://onevcat.com/2021/07/swift-concurrency/">Swift并发初步</a>）</p>
-<p>我们一般有两种方式来使我们的任务实现并发：<code>Grand Central Dispatch</code>（通常称为<strong>GCD</strong>）和<code>Operation</code>。两种方式相辅相成。此外，<code>Operation</code>其实是在GCD的基础上打造的，这个我会在接下来的博客中介绍，本文暂不提及。下面我会简单介绍一下GDC的基本概念以及使用。</p>
+<p>我们一般有两种方式来使我们的任务实现并发：<code>Grand Central Dispatch</code>（通常称为<strong>GCD</strong>）和<code>Operation</code>。两种方式相辅相成。此外，<code>Operation</code>其实是在GCD的基础上打造的，这个我会在接下来的博客中介绍，本文暂不提及。下面我会简单介绍一下GCD的基本概念以及使用。</p>
 <h1 id="GCD-Grand-Central-Dispatch"><a href="#GCD-Grand-Central-Dispatch" class="headerlink" title="GCD (Grand Central Dispatch)"></a>GCD (Grand Central Dispatch)</h1><p>GCD是Apple对C语言<code>libdispatch</code>库的实现。它的目的是将任务（方法或闭包）进行排队，这些任务可以并行运行（具体取决于资源的可用性），然后让它们在可用的处理器核心上执行。</p>
 <p>虽然GCD在其实现中使用了线程，但作为开发人员，你完全不需要担心如何进行线程管理。GCD的任务非常轻量级，以至于Apple在2009年关于GCD的技术简报中指出，部署一个任务只需要15条指令，而创建传统线程可能需要数百条指令。</p>
 <p>GCD将你的所有任务都放入它管理的先进先出(FIFO)队列中，你提交给队列的每个任务都会由系统管理的线程池执行，并在完成后销毁线程。</p>
@@ -362,6 +362,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/%E6%9D%82%E8%B0%88/%E5%A6%82%E4%BD%95%E4%BB%8E0%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91%EF%BC%9F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">如何从0开始学习编程开发？</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
