@@ -3,18 +3,19 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
-keywords:
-author: John Doe
-language: en
-timezone: ''
+title: Roy's Blog
+subtitle: '你活得像诗，没有归宿却足够酷。'
+description: 'Tech blog for Swift, SwiftUI, iOS, macOS, and frontend.'
+keywords: Swift,SwiftUI,iOS,macOS,frontend
+author: Roy Rao
+language: zh-CN
+timezone: 'Asia/Chongqing'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
-permalink: :year/:month/:day/:title/
+url: https://royrao2333.github.io/
+root: /
+permalink: :category/:title/
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
@@ -40,7 +41,7 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: false # 生成文章的时候生成一个同名的资源目录用于存放图片文件
 relative_link: false
 future: true
 highlight:
@@ -96,10 +97,22 @@ ignore:
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
+plugins:
+  - hexo-generator-baidu-sitemap
+  - hexo-generator-sitemap
+
+baidusitemap:
+  path: baidusitemap.xml
+sitemap:
+  path: sitemap.xml
+
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: fluid
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: https://github.com/RoyRao2333/royrao2333.github.io.git
+  branch: main
+  token: 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
