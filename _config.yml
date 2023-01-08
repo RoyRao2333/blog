@@ -13,8 +13,8 @@ timezone: 'Asia/Chongqing'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://royrao2333.github.io/
-root: /
+url: https://royrao2333.github.io/blog
+root: /blog
 permalink: :category/:title/
 permalink_defaults:
 pretty_urls:
@@ -113,6 +113,6 @@ theme: fluid
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/RoyRao2333/royrao2333.github.io.git
+  repo: https://github.com/RoyRao2333/blog.git
   branch: main
   token: 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
