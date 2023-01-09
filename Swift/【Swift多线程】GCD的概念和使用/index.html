@@ -1,0 +1,718 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/assets/images/favicon.ico">
+  <link rel="icon" href="/blog/assets/images/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Roy Rao">
+  <meta name="keywords" content="Swift,SwiftUI,iOS,macOS,frontend">
+  
+    <meta name="description" content="Swift中，在提到并发的时候，一般指的是异步 + 并行...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Swift多线程】GCD的概念和使用">
+<meta property="og:url" content="https://royrao2333.github.io/blog/Swift/%E3%80%90Swift%E5%A4%9A%E7%BA%BF%E7%A8%8B%E3%80%91GCD%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Roy&#39;s Blog">
+<meta property="og:description" content="Swift中，在提到并发的时候，一般指的是异步 + 并行...">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-29T16:54:52.000Z">
+<meta property="article:modified_time" content="2023-01-09T08:22:45.059Z">
+<meta property="article:author" content="Roy Rao">
+<meta property="article:tag" content="Swift">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>【Swift多线程】GCD的概念和使用 - Roy&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/blog/css/code-block.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"royrao2333.github.io","root":"/blog/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♡","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":null,"onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>Roy&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/assets/images/banner.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, NaN)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【Swift多线程】GCD的概念和使用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-30 00:54" pubdate>
+          2022年11月30日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【Swift多线程】GCD的概念和使用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Swift中，在提到并发的时候，一般指的是<strong>异步 + 并行</strong>。（异步和并行的概念假设大家已有所了解，这里不作详细介绍。如果想进一步了解的，可以参阅喵大的博客<a target="_blank" rel="noopener" href="https://onevcat.com/2021/07/swift-concurrency/">Swift并发初步</a>）</p>
+<p>我们一般有两种方式来使我们的任务实现并发：<code>Grand Central Dispatch</code>（通常称为<strong>GCD</strong>）和 <code>Operation</code>。两种方式相辅相成。此外，<code>Operation</code>其实是在GCD的基础上打造的，这个我会在接下来的博客中介绍，本文暂不提及。下面我会简单介绍一下GCD的基本概念以及使用。</p>
+<h2 id="GCD-Grand-Central-Dispatch"><a href="#GCD-Grand-Central-Dispatch" class="headerlink" title="GCD (Grand Central Dispatch)"></a>GCD (Grand Central Dispatch)</h2><p>GCD是Apple对C语言<code>libdispatch</code>库的实现。它的目的是将任务（方法或闭包）进行排队，这些任务可以并行运行（具体取决于资源的可用性），然后让它们在可用的处理器核心上执行。</p>
+<p>虽然GCD在其实现中使用了线程，但作为开发人员，你完全不需要担心如何进行线程管理。GCD的任务非常轻量级，以至于Apple在2009年关于GCD的技术简报中指出，部署一个任务只需要15条指令，而创建传统线程可能需要数百条指令。</p>
+<p>GCD将你的所有任务都放入它管理的先进先出(FIFO)队列中，你提交给队列的每个任务都会由系统管理的线程池执行，并在完成后销毁线程。</p>
+<blockquote>
+<p>Note: GCD不能保证你的任务将在哪个线程上执行。</p>
+</blockquote>
+<h3 id="Dispatch-Queue"><a href="#Dispatch-Queue" class="headerlink" title="Dispatch Queue"></a>Dispatch Queue</h3><p>在Swift中，<code>DispatchQueue</code>是GCD管理的一组FIFO队列，我们提交的任务在队列里被加载、调度，然后在要执行的线程池中进一步分发。这些队列可以是串行的，即执行的顺序被严格限制；也可以是并发的，即同时执行。因为并发可以带来更好的性能，因此Apple鼓励我们更频繁地使用并发队列。</p>
+<h4 id="main和-global"><a href="#main和-global" class="headerlink" title=".main和.global()"></a>.main和.global()</h4><p>这里，<code>.main</code>队列是GCD提供的全局可用的串行队列，用于在应用程序的主线程上执行任务。</p>
+<blockquote>
+<p>Note: 由于主线程用于更新UI和用户交互，因此我们在使用main队列执行任务时要注意，最好不要阻塞主线程。</p>
+</blockquote>
+<p>为了避免阻塞主线程，除了<code>.main</code>队列之外，GCD还为我们提供了<code>.global()</code>方法，调用时返回一支全局队列，也称为后台队列，用于执行不必要在主线程执行的任务，即任何不属于UI更新的任务。</p>
+<p>我们这里举一个例子：假如你需要根据当前状态，通过方法<code>getTextString(status: OSStatus)</code>来获取需要显示的文字，并更新到UI上的<code>NSTextField</code>上。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-type">DispatchQueue</span>.global(qos: .userInteractive).async &#123; [<span class="hljs-keyword">unowned</span> <span class="hljs-keyword">self</span>] <span class="hljs-keyword">in</span><br>    <span class="hljs-comment">// 根据当前状态获取要显示的文字</span><br>    <span class="hljs-keyword">let</span> text2Show <span class="hljs-operator">=</span> getTextString(status)<br>    <br>    <span class="hljs-type">DispatchQueue</span>.main.async &#123;<br>        <span class="hljs-comment">// 记得在主线程更新UI</span><br>        textfield.stringValue <span class="hljs-operator">=</span> text2Show<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>GCD允许我们以同步或异步的方式分派任务。使用<code>.sync</code>（即同步）时，只有在任务执行完成后，才会将控制权返回给调用方函数。而使用<code>.async</code>（即异步）时会开始执行任务并立即将控制权返回给调用方，而不会阻塞线程。通常，我们在进行API调用或执行计算密集型任务 (CPU-intensive task) 时使用异步。具体使用什么方式，根据需求选择。</p>
+<h3 id="Quality-of-Service-QoS"><a href="#Quality-of-Service-QoS" class="headerlink" title="Quality of Service (QoS)"></a>Quality of Service (QoS)</h3><p>在以上示例代码中，出现了一个参数<code>qos</code>，即Quality of Service。顾名思义，就是定义一个队列的重要性、优先级。</p>
+<p>定义QoS有助于我们对<code>DispatchQueue</code>的任务进行优先级分类。但这并不意味着我们应该把所有的任务都安排在高优先级上。通过合理的分配，可以使我们的app节能且响应迅速。</p>
+<p>QoS的优先级被分为了四个大类：</p>
+<ul>
+<li><strong>userInteractive</strong>: 用于显示动画，或更新UI。</li>
+<li><strong>userInitiated</strong>: 用于从API中获取数据，且在过程中不允许用户进行交互。</li>
+<li><strong>utility</strong>: 用于那些不需要用户关注或在意，可独立完成的任务。</li>
+<li><strong>background</strong>: 用于任何优先级不高的任务，例如在本地数据库中保存数据。</li>
+</ul>
+<p>一旦对任务队列进行分类后，系统就会在可分配的资源内以尽可能好的方式处理它。另一点需要注意的是，.utility和.background比其他分类的优先级更低，使用之前应当对任务类型进行合理的分析，否则你的app可能会出现线程爆炸和死锁。</p>
+<h3 id="Dispatch-Source"><a href="#Dispatch-Source" class="headerlink" title="Dispatch Source"></a>Dispatch Source</h3><p>在Swift中，<code>DispatchSource</code>是一种用于处理事件的数据类型，这些被处理的事件为操作系统中的底层级别。GCD支持如下的<code>DispatchSource</code>类型：</p>
+<ul>
+<li><strong>Timer dispatch sources</strong>: 定时器类型，能够产生周期性的通知事件；</li>
+<li><strong>Signal dispatch sources</strong>: 信号类型，当UNIX信号到底时，能够通知应用程序；</li>
+<li><strong>Descriptor sources</strong>：文件描述符类型，处理UNIX的文件或socket描述符，如：<ul>
+<li>数据可读</li>
+<li>数据可写</li>
+<li>文件被删除、修改或移动</li>
+<li>文件的元信息被修改</li>
+</ul>
+</li>
+<li><strong>Process dispatch sources</strong>: 进程类型，能够通知一些与进程相关的事件类型，如：<ul>
+<li>当进程退出</li>
+<li>当进程调用了fork或exec</li>
+<li>当一个信号传递给了进程</li>
+</ul>
+</li>
+<li><strong>Mach port dispatch sources</strong>: 端口匹配类型，能够通知一些端口事件的类型；</li>
+<li><strong>Custom dispatch sources</strong>: 自定义类型，可以自定义一些事件类型。</li>
+</ul>
+<p>在Swift中，<code>DispatchSource</code>能够替换一些异步的回调函数，特别是用于处理一些与系统相关的事件。当进行<code>DispatchSource</code>配置时，可以指定希望监控的事件类型，且可以指定DispatchQueue来处理上述的事件。当一个受监控的的事件出现时，所指定的block或函数将会被调用执行。</p>
+<p>和将任务提交到<code>DispatchQueue</code>不同，<code>DispatchSource</code>将会持续对所提交的事件进行监控，除非手动取消指定事件的监控。</p>
+<p>Signal、Process、File System、Timer等等，所有事情都可以通过<code>DispatchSource</code>对象进行处理。你可以使用<code>DispatchSource</code>监控信号、进程、文件、计时器等，详见<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/dispatch/dispatchsource">Apple官方文档</a>。</p>
+<h2 id="GCD-API"><a href="#GCD-API" class="headerlink" title="GCD API"></a>GCD API</h2><p>创建主队列</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-type">DispatchQueue</span>.main.async &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>创建全局队列</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-type">DispatchQueue</span>.global().sync &#123;&#125;<br><br><span class="hljs-type">DispatchQueue</span>.global(qos: .background).async &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>创建自定义队列</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-type">DispatchQueue</span>(label: <span class="hljs-string">&quot;com.Roy.workingQueue&quot;</span>).async &#123;&#125;<br><br><span class="hljs-type">DispatchQueue</span>(<br>    label: <span class="hljs-string">&quot;com.Roy.concurrentQueue&quot;</span>,<br>    qos: .default,<br>    attributes: .concurrent,<br>    autoreleaseFrequency: .inherit,<br>    target: <span class="hljs-literal">nil</span><br>).async &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li>喵大 - <a target="_blank" rel="noopener" href="https://onevcat.com/2021/07/swift-concurrency/">Swift并发初步</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.devgenius.io/multithreading-in-swift-how-gcd-works-why-do-we-need-operation-queues-high-performing-ios-ddf6ca09583e">Guide to Multithreading in iOS</a></li>
+</ul>
+<br/>
+
+<blockquote>
+<p>不足之处，欢迎指正。</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blog/categories/Swift/" class="category-chain-item">Swift</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/Swift/">#Swift</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【Swift多线程】GCD的概念和使用</div>
+      <div>https://royrao2333.github.io/blog/Swift/【Swift多线程】GCD的概念和使用/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Roy Rao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月30日 凌晨</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/Swift/Swift%E4%B8%AD%E7%9A%84%E6%B8%90%E5%8F%98%E8%89%B2%E6%8C%89%E9%92%AE/" title="Swift中的渐变色按钮">
+                        <span class="hidden-mobile">Swift中的渐变色按钮</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
