@@ -114,5 +114,4 @@ theme: fluid
 deploy:
   type: git
   repo: https://github.com/RoyRao2333/blog.git
-  branch: main
-  token: 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
+  branch: gh-pages
