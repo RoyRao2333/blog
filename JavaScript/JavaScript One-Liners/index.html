@@ -1,0 +1,675 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/assets/images/favicon.ico">
+  <link rel="icon" href="/blog/assets/images/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Roy Rao">
+  <meta name="keywords" content="Swift,SwiftUI,iOS,macOS,frontend">
+  
+    <meta name="description" content="Take your JavaScript skills to the next level with these essential one-liners that will also save you hours of coding 🚀">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript One-Liners">
+<meta property="og:url" content="https://royrao2333.github.io/blog/JavaScript/JavaScript%20One-Liners/index.html">
+<meta property="og:site_name" content="Roy&#39;s Blog">
+<meta property="og:description" content="Take your JavaScript skills to the next level with these essential one-liners that will also save you hours of coding 🚀">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-30T03:51:00.000Z">
+<meta property="article:modified_time" content="2023-01-30T03:52:26.629Z">
+<meta property="article:author" content="Roy Rao">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>JavaScript One-Liners - Roy&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/blog/css/code-block.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"royrao2333.github.io","root":"/blog/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"♡","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":null,"onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>Roy&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/assets/images/banner.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, NaN)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="JavaScript One-Liners"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-30 11:51" pubdate>
+          2023年01月30日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JavaScript One-Liners</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Take your JavaScript skills to the next level with these essential one-liners that will also save you hours of coding 🚀</p>
+<h3 id="1-Find-the-max-value-in-an-array"><a href="#1-Find-the-max-value-in-an-array" class="headerlink" title="1) Find the max value in an array:"></a>1) Find the max value in an array:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(...array)<br></code></pre></td></tr></table></figure>
+<h3 id="2-Remove-duplicates-from-an-array"><a href="#2-Remove-duplicates-from-an-array" class="headerlink" title="2) Remove duplicates from an array:"></a>2) Remove duplicates from an array:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript">[...<span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>(array)]<br></code></pre></td></tr></table></figure>
+<h3 id="3-Generate-a-random-number-between-1-and-100"><a href="#3-Generate-a-random-number-between-1-and-100" class="headerlink" title="3) Generate a random number between 1 and 100:"></a>3) Generate a random number between 1 and 100:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * <span class="hljs-number">100</span>) + <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<h3 id="4-Check-if-a-string-is-a-valid-number"><a href="#4-Check-if-a-string-is-a-valid-number" class="headerlink" title="4) Check if a string is a valid number:"></a>4) Check if a string is a valid number:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript">!<span class="hljs-built_in">isNaN</span>(<span class="hljs-built_in">parseFloat</span>(<span class="hljs-built_in">string</span>))<br></code></pre></td></tr></table></figure>
+<h3 id="5-Get-the-current-date-and-time"><a href="#5-Get-the-current-date-and-time" class="headerlink" title="5) Get the current date and time:"></a>5) Get the current date and time:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">toString</span>()<br></code></pre></td></tr></table></figure>
+<h3 id="6-Check-if-a-variable-is-an-array"><a href="#6-Check-if-a-variable-is-an-array" class="headerlink" title="6) Check if a variable is an array:"></a>6) Check if a variable is an array:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(variable)<br></code></pre></td></tr></table></figure>
+<h3 id="7-Check-if-a-variable-is-an-object"><a href="#7-Check-if-a-variable-is-an-object" class="headerlink" title="7) Check if a variable is an object:"></a>7) Check if a variable is an object:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">typeof</span> variable === <span class="hljs-string">&quot;object&quot;</span><br><br><span class="hljs-comment">// But be careful!</span><br><span class="hljs-keyword">typeof</span> <span class="hljs-literal">null</span> <span class="hljs-comment">// object</span><br><span class="hljs-keyword">typeof</span> &#123;&#125; <span class="hljs-comment">// object</span><br><span class="hljs-keyword">typeof</span> [] <span class="hljs-comment">// object</span><br></code></pre></td></tr></table></figure>
+<h3 id="8-Convert-an-array-to-a-string"><a href="#8-Convert-an-array-to-a-string" class="headerlink" title="8) Convert an array to a string:"></a>8) Convert an array to a string:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs typescript">array.<span class="hljs-title function_">join</span>(<span class="hljs-string">&quot;,&quot;</span>)<br><span class="hljs-comment">// Or</span><br>arr.<span class="hljs-title function_">toString</span>()<br><span class="hljs-comment">// Or</span><br><span class="hljs-string">&#x27;&#x27;</span> + array<br></code></pre></td></tr></table></figure>
+<h3 id="9-Check-if-a-variable-is-a-function"><a href="#9-Check-if-a-variable-is-a-function" class="headerlink" title="9) Check if a variable is a function:"></a>9) Check if a variable is a function:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">typeof</span> variable === <span class="hljs-string">&quot;function&quot;</span><br></code></pre></td></tr></table></figure>
+<h3 id="10-Convert-an-object-to-an-array"><a href="#10-Convert-an-object-to-an-array" class="headerlink" title="10) Convert an object to an array:"></a>10) Convert an object to an array:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-title class_">Object</span>.<span class="hljs-title function_">values</span>(<span class="hljs-built_in">object</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="11-Count-the-occurrences-of-an-element-in-an-array"><a href="#11-Count-the-occurrences-of-an-element-in-an-array" class="headerlink" title="11) Count the occurrences of an element in an array:"></a>11) Count the occurrences of an element in an array:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript">array.<span class="hljs-title function_">filter</span>(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> x === element).<span class="hljs-property">length</span><br></code></pre></td></tr></table></figure>
+<h3 id="12-Create-a-new-object-with-a-dynamic-key-and-value"><a href="#12-Create-a-new-object-with-a-dynamic-key-and-value" class="headerlink" title="12) Create a new object with a dynamic key and value:"></a>12) Create a new object with a dynamic key and value:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript">&#123; [key]: value &#125;<br></code></pre></td></tr></table></figure>
+<h3 id="13-Check-if-a-string-is-a-palindrome-回文字符串"><a href="#13-Check-if-a-string-is-a-palindrome-回文字符串" class="headerlink" title="13) Check if a string is a palindrome (回文字符串):"></a>13) Check if a string is a palindrome (回文字符串):</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-built_in">string</span> === <span class="hljs-built_in">string</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;&quot;</span>).<span class="hljs-title function_">reverse</span>().<span class="hljs-title function_">join</span>(<span class="hljs-string">&quot;&quot;</span>)<br><span class="hljs-comment">// Or some wired strings like emojis &quot;🤔😈&quot; where .split() won&#x27;t work</span><br><span class="hljs-built_in">string</span> === [...<span class="hljs-built_in">string</span>].<span class="hljs-title function_">reverse</span>().<span class="hljs-title function_">join</span>(<span class="hljs-string">&quot;&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>Enter fullscreen mode Exit fullscreen mode</p>
+<h3 id="14-Get-the-the-sum-of-all-the-numbers-in-an-array"><a href="#14-Get-the-the-sum-of-all-the-numbers-in-an-array" class="headerlink" title="14) Get the the sum of all the numbers in an array"></a>14) Get the the sum of all the numbers in an array</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript">array.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a + b, <span class="hljs-number">0</span>));<br></code></pre></td></tr></table></figure>
+<h3 id="15-Get-the-current-timestamp"><a href="#15-Get-the-current-timestamp" class="headerlink" title="15) Get the current timestamp:"></a>15) Get the current timestamp:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>()<br></code></pre></td></tr></table></figure>
+<h3 id="16-Check-if-a-variable-is-null"><a href="#16-Check-if-a-variable-is-null" class="headerlink" title="16) Check if a variable is null:"></a>16) Check if a variable is null:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript">variable === <span class="hljs-literal">null</span><br></code></pre></td></tr></table></figure>
+<p>Enter fullscreen mode Exit fullscreen mode</p>
+<h3 id="17-Check-if-a-variable-is-undefined"><a href="#17-Check-if-a-variable-is-undefined" class="headerlink" title="17) Check if a variable is undefined:"></a>17) Check if a variable is undefined:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">typeof</span> variable === <span class="hljs-string">&quot;undefined&quot;</span><br></code></pre></td></tr></table></figure>
+<h3 id="18-Find-the-minimum-value-in-an-array"><a href="#18-Find-the-minimum-value-in-an-array" class="headerlink" title="18) Find the minimum value in an array"></a>18) Find the minimum value in an array</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(...array)<br></code></pre></td></tr></table></figure>
+<h3 id="19-Check-if-an-array-is-empty"><a href="#19-Check-if-an-array-is-empty" class="headerlink" title="19) Check if an array is empty:"></a>19) Check if an array is empty:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript">!array.<span class="hljs-property">length</span><br></code></pre></td></tr></table></figure>
+<h3 id="20-Create-a-new-array-with-a-specified-range-of-numbers"><a href="#20-Create-a-new-array-with-a-specified-range-of-numbers" class="headerlink" title="20) Create a new array with a specified range of numbers:"></a>20) Create a new array with a specified range of numbers:</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(&#123; <span class="hljs-attr">length</span>: n &#125;, <span class="hljs-function">(<span class="hljs-params">_, i</span>) =&gt;</span> i)<br><span class="hljs-comment">// Or</span><br><span class="hljs-title class_">Array</span>(n).<span class="hljs-title function_">fill</span>(<span class="hljs-number">0</span>).<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">_, i</span>) =&gt;</span> i)<br><span class="hljs-comment">// Or a shorter version</span><br>[...<span class="hljs-title class_">Array</span>(n).<span class="hljs-title function_">keys</span>()]<br></code></pre></td></tr></table></figure>
+<h3 id="21-Delete-a-specific-item-from-an-array"><a href="#21-Delete-a-specific-item-from-an-array" class="headerlink" title="21) Delete a specific item from an array:"></a>21) Delete a specific item from an array:</h3><p><strong>Pure TS:</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript">arr.<span class="hljs-title function_">splice</span>(arr.<span class="hljs-title function_">indexOf</span>(item_to_delete), <span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+<p><strong>JSX (DOM will rerender if it changes):</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-title class_">Object</span>.<span class="hljs-title function_">values</span>(((&#123; [arr.<span class="hljs-title function_">indexOf</span>(item_to_delete)]: arr, ...arr &#125; = arr), arr))<br><span class="hljs-comment">// Or using .filter()</span><br><span class="hljs-comment">// Consumes more memory as it returns a new array</span><br>arr = arr.<span class="hljs-title function_">filter</span>(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> r !== item_to_delete)<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blog/categories/JavaScript/" class="category-chain-item">JavaScript</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/JavaScript/">#JavaScript</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>JavaScript One-Liners</div>
+      <div>https://royrao2333.github.io/blog/JavaScript/JavaScript One-Liners/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Roy Rao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年01月30日 中午</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/Swift/%E3%80%90Swift%E5%A4%9A%E7%BA%BF%E7%A8%8B%E3%80%91GCD%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E4%BD%BF%E7%94%A8/" title="【Swift多线程】GCD的概念和使用">
+                        <span class="hidden-mobile">【Swift多线程】GCD的概念和使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
