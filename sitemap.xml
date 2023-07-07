@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://royrao2333.github.io/blog/JavaScript/JavaScript%20One-Liners/</loc>
+    <loc>https://royrao2333.github.io/blog/css/code-block.css</loc>
     
-    <lastmod>2023-01-31</lastmod>
+    <lastmod>2023-01-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://royrao2333.github.io/blog/css/code-block.css</loc>
+    <loc>https://royrao2333.github.io/blog/Swift/SwiftUI%E4%B8%AD%E5%B7%A7%E5%A6%99%E7%9A%84if%E5%88%A4%E6%96%AD/</loc>
     
     <lastmod>2023-01-09</lastmod>
     
@@ -47,15 +47,6 @@
   </url>
   
   <url>
-    <loc>https://royrao2333.github.io/blog/Swift/SwiftUI%E4%B8%AD%E5%B7%A7%E5%A6%99%E7%9A%84if%E5%88%A4%E6%96%AD/</loc>
-    
-    <lastmod>2023-01-09</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://royrao2333.github.io/blog/about/index.html</loc>
     
     <lastmod>2023-01-09</lastmod>
@@ -67,29 +58,22 @@
 
   <url>
     <loc>https://royrao2333.github.io/blog</loc>
-    <lastmod>2023-01-31</lastmod>
+    <lastmod>2023-07-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>https://royrao2333.github.io/blog/tags/JavaScript/</loc>
-    <lastmod>2023-01-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://royrao2333.github.io/blog/tags/Swift/</loc>
-    <lastmod>2023-01-31</lastmod>
+    <lastmod>2023-07-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://royrao2333.github.io/blog/tags/SwiftUI/</loc>
-    <lastmod>2023-01-31</lastmod>
+    <lastmod>2023-07-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -97,15 +81,8 @@
 
   
   <url>
-    <loc>https://royrao2333.github.io/blog/categories/JavaScript/</loc>
-    <lastmod>2023-01-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://royrao2333.github.io/blog/categories/Swift/</loc>
-    <lastmod>2023-01-31</lastmod>
+    <lastmod>2023-07-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
