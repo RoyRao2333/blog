@@ -20,15 +20,6 @@
   </url>
   
   <url>
-    <loc>https://royrao2333.github.io/blog/Swift/Swift%E4%B8%AD%E7%9A%84%E6%B8%90%E5%8F%98%E8%89%B2%E6%8C%89%E9%92%AE/</loc>
-    
-    <lastmod>2023-01-09</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://royrao2333.github.io/blog/Swift/Swift%E4%B8%AD%E8%8E%B7%E5%8F%96App%E4%B8%8A%E6%AC%A1%E6%89%93%E5%BC%80%E6%97%B6%E9%97%B4/</loc>
     
     <lastmod>2023-01-09</lastmod>
@@ -39,6 +30,15 @@
   
   <url>
     <loc>https://royrao2333.github.io/blog/Swift/%E3%80%90Swift%E5%A4%9A%E7%BA%BF%E7%A8%8B%E3%80%91GCD%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E4%BD%BF%E7%94%A8/</loc>
+    
+    <lastmod>2023-01-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://royrao2333.github.io/blog/Swift/Swift%E4%B8%AD%E7%9A%84%E6%B8%90%E5%8F%98%E8%89%B2%E6%8C%89%E9%92%AE/</loc>
     
     <lastmod>2023-01-09</lastmod>
     
