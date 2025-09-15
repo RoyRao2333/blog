@@ -13,8 +13,8 @@ timezone: 'Asia/Chongqing'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://royrao2333.github.io/blog
-root: /blog
+url: https://royrao-blog.vercel.app
+root: /
 permalink: :category/:title/
 permalink_defaults:
 pretty_urls:
@@ -111,7 +111,7 @@ theme: fluid
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
-deploy:
-  type: git
-  repo: https://github.com/RoyRao2333/blog.git
-  branch: gh-pages
+# deploy:
+#   type: git
+#   repo: https://github.com/RoyRao2333/blog.git
+#   branch: gh-pages
