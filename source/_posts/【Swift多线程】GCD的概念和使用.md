@@ -4,8 +4,6 @@ date: 2022-11-30 00:54:52
 excerpt: Swift中，在提到并发的时候，一般指的是异步 + 并行...
 categories:
   - Swift
-tags:
-  - Swift
 ---
 
 Swift中，在提到并发的时候，一般指的是**异步 + 并行**。（异步和并行的概念假设大家已有所了解，这里不作详细介绍。如果想进一步了解的，可以参阅喵大的博客[Swift并发初步](https://onevcat.com/2021/07/swift-concurrency/)）
