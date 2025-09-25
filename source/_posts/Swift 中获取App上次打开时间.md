@@ -1,8 +1,10 @@
 ---
-title: Swift中获取App上次打开时间
+title: Swift 中获取App上次打开时间
 date: 2022-11-30 00:37:03
 excerpt: 在日常开发中，我们经常会遇到一些情况，需要获取用户上次打开App的时间...
 categories:
+  - 大前端
+tags: 
   - Swift
 ---
 

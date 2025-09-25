@@ -1,10 +1,11 @@
 ---
-title: SwiftUI中巧妙的if判断
+title: SwiftUI 中巧妙的if判断
 date: 2022-11-30 00:22:13
 excerpt: 我们一般对于选择性的显示View，或者在满足一定条件的情况下在View之间切换的做法，常见的有两种...
 categories:
-  - Swift
+  - 大前端
 tags: 
+  - Swift
   - SwiftUI
 ---
 

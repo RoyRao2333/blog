@@ -1,8 +1,10 @@
 ---
-title: 【Swift多线程】GCD的概念和使用
+title: Swift多线程：GCD的概念和使用
 date: 2022-11-30 00:54:52
 excerpt: Swift中，在提到并发的时候，一般指的是异步 + 并行...
 categories:
+  - 大前端
+tags: 
   - Swift
 ---
 
